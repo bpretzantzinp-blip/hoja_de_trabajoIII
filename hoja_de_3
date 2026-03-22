@@ -1,0 +1,178 @@
+#include <iostream>
+using namespace std;
+
+// Definicion del nodo
+struct Nodo {
+    int dato;
+    Nodo* siguiente;
+};
+
+// Puntero al tope de la pila
+Nodo* tope = NULL;
+
+// Funcion para mostrar el nombre del estudiante
+void mostrarNombre() {
+    cout << " " << endl;
+    cout << "SISTEMA DE PILA DINAMICA" << endl;
+    cout << "Estudiante: Brandon Jose Pretzantzin Pretzantzin" << endl;
+    cout << "Carne: 9941-24-20678" << endl;
+    cout << "" << endl;
+}
+
+// Funcion para insertar elemento
+void push(int valor) {
+    Nodo* nuevo = new Nodo();
+    nuevo->dato = valor;
+    nuevo->siguiente = tope;
+    tope = nuevo;
+    cout << "Elemento " << valor << " insertado." << endl;
+}
+
+// Funcion para eliminar elemento
+void pop() {
+    if (tope == NULL) {
+        cout << "Error: Pila vacia" << endl;
+        return;
+    }
+    Nodo* temp = tope;
+    cout << "Elemento eliminado: " << temp->dato << endl;
+    tope = tope->siguiente;
+    delete temp;
+}
+
+// Funcion para ver el tope
+void peek() {
+    if (tope == NULL) {
+        cout << "Error: Pila vacia" << endl;
+    } else {
+        cout << "Tope: " << tope->dato << endl;
+    }
+}
+
+// Funcion para mostrar toda la pila
+void mostrar() {
+    if (tope == NULL) {
+        cout << "Error: Pila vacia" << endl;
+        return;
+    }
+    Nodo* actual = tope;
+    cout << "Pila: ";
+    while (actual != NULL) {
+        cout << actual->dato << " ";
+        actual = actual->siguiente;
+    }
+    cout << endl;
+}
+
+// Funcion para contar elementos
+int contar() {
+    int cont = 0;
+    Nodo* actual = tope;
+    while (actual != NULL) {
+        cont++;
+        actual = actual->siguiente;
+    }
+    return cont;
+}
+
+// Funcion para buscar un valor
+void buscar(int valor) {
+    if (tope == NULL) {
+        cout << "Error: Pila vacia" << endl;
+        return;
+    }
+    Nodo* actual = tope;
+    int pos = 1;
+    int encontrado = 0;
+    while (actual != NULL) {
+        if (actual->dato == valor) {
+            cout << "Valor " << valor << " encontrado en posicion " << pos << endl;
+            encontrado = 1;
+        }
+        actual = actual->siguiente;
+        pos++;
+    }
+    if (encontrado == 0) {
+        cout << "Valor " << valor << " no encontrado" << endl;
+    }
+}
+
+// Funcion para vaciar la pila
+void vaciar() {
+    if (tope == NULL) {
+        cout << "Error: Pila ya vacia" << endl;
+        return;
+    }
+    int cont = 0;
+    while (tope != NULL) {
+        Nodo* temp = tope;
+        tope = tope->siguiente;
+        delete temp;
+        cont++;
+    }
+    cout << "Pila vaciada. Se eliminaron " << cont << " elementos" << endl;
+}
+
+// Programa principal
+int main() {
+    int opcion, valor;
+    
+    mostrarNombre();
+    
+    do {
+        cout << "\n=== MENU ===" << endl;
+        cout << "1. Insertar" << endl;
+        cout << "2. Eliminar" << endl;
+        cout << "3. Ver tope" << endl;
+        cout << "4. Mostrar todo" << endl;
+        cout << "5. Contar" << endl;
+        cout << "6. Buscar" << endl;
+        cout << "7. Vaciar" << endl;
+        cout << "8. Salir" << endl;
+        cout << "Opcion: ";
+        cin >> opcion;
+        
+        if (opcion == 1) {
+            cout << "Valor Ingresado: ";
+            cin >> valor;
+            push(valor);
+        }
+        else if (opcion == 2) {
+            pop();
+        }
+        else if (opcion == 3) {
+            peek();
+        }
+        else if (opcion == 4) {
+            mostrar();
+        }
+        else if (opcion == 5) {
+            cout << "Total: " << contar() << " elementos" << endl;
+        }
+        else if (opcion == 6) {
+            if (tope == NULL) {
+                cout << "Error: Pila vacia" << endl;
+            } else {
+                cout << "Valor a buscar: ";
+                cin >> valor;
+                buscar(valor);
+            }
+        }
+        else if (opcion == 7) {
+            vaciar();
+        }
+        else if (opcion == 8) {
+            vaciar();
+            cout << "" << endl;
+            cout << "Memoria liberada" << endl;
+            cout << "Fin del proceso" << endl;
+            cout << "" << endl;
+        }
+        else {
+            cout << "Opcion no valida" << endl;
+        }
+        
+    } while (opcion != 8);
+    
+    return 0;
+}
